@@ -18,10 +18,14 @@ class Nodo {
         Nodo* getIzquierda();
         Nodo* getDerecha();
         Nodo* getPadre();
+        ColorNodo getColor();
         void setValor(Dato val);
         void setIzquierda(Nodo* nodo);
         void setDerecha(Nodo* nodo);
         void setPadre(Nodo* nodo);
+        void setColor(ColorNodo col);
+
+        Nodo* buscar(const Dato& otro, int criterio);
 
         static void recorrerInOrden(Nodo* nodo);
         static void recorrerPreOrden(Nodo* nodo);

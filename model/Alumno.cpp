@@ -43,6 +43,14 @@ bool Alumno::compMenorQue(Alumno other, int criterio) {
     return false;
 }
 
+bool Alumno::compMayorQue(Alumno other, int criterio) {
+    return false;
+}
+
+bool Alumno::compIgualQue(Alumno other, int criterio) {
+    return false;
+}
+
 std::wostream& operator << ( std::wostream& outs, const Alumno& al ) {
     return outs <<
     "Alumno{" <<

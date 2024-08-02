@@ -29,6 +29,8 @@ class Alumno: Dato {
 
         std::string toString();
         bool compMenorQue(Alumno other, int criterio);
+        bool compMayorQue(Alumno other, int criterio);
+        bool compIgualQue(Alumno other, int criterio);
 };
 
 std::wostream& operator << (std::wostream& outs, const Alumno& al);

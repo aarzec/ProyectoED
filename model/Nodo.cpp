@@ -40,6 +40,24 @@ void Nodo::setPadre(Nodo* nodo) {
     derecha = nodo;
 }
 
+ColorNodo Nodo::getColor() {
+    return color;
+}
+
+void Nodo::setColor(ColorNodo col) {
+    color = col;
+}
+
+Nodo* Nodo::buscar(const Dato& otro, int criterio) {
+    if (valor.compIgualQue(otro, criterio))
+        return this;
+    if (valor.compMenorQue(otro, criterio) && izquierda != nullptr)
+        return izquierda->buscar(otro, criterio);
+    if (valor.compMayorQue(otro, criterio) && derecha != nullptr)
+        return derecha->buscar(otro, criterio);
+    return nullptr;
+}
+
 void Nodo::recorrerInOrden(Nodo* nodo) {
     if (nodo == nullptr) {
         return;
