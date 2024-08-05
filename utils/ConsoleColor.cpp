@@ -9,6 +9,7 @@ std::wstring ConsoleColor::BLUE    = L"\033[34m";
 std::wstring ConsoleColor::MAGENTA = L"\033[35m";
 std::wstring ConsoleColor::CYAN    = L"\033[36m";
 std::wstring ConsoleColor::WHITE   = L"\033[37m";
+std::wstring ConsoleColor::GRAY    = L"\033[90m";
 
 std::wstring ConsoleColor::BG_BLACK   = L"\033[40m";
 std::wstring ConsoleColor::BG_RED     = L"\033[41m";

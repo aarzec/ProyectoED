@@ -30,10 +30,12 @@ int main() {
     #endif
 
     PrettyPrinter printer;
-    ArbolRB arbolAlumnos = ArbolRB(); // Por simplicidad, el árbol por defecto estará ordenado por cédula
+    ArbolRB arbolAlumnos = leerArchivoAlumnos(); // Por simplicidad, el árbol por defecto estará ordenado por cédula
 
     std::vector<std::wstring> opcionesMenuPrincipal({
         L"Registrar estudiante",
+        L"Buscar datos",
+        L"Mostrar datos",
         L"Salir"
     });
 
@@ -41,13 +43,76 @@ int main() {
     MenuSelector menuPrincipal = MenuSelector(L"Menú Principal", opcionesMenuPrincipal);
 
     while (continuarMenuPrincipal) {
-        Utilidades::clearConsole();
+        // Utilidades::clearConsole();
         unsigned long opcionMenuPrincipal = menuPrincipal.showMenu();
         switch (opcionMenuPrincipal) {
             case 0: {
                 Alumno alumno = ingresarAlumno(arbolAlumnos);
-                arbolAlumnos.insertar(alumno);
+                arbolAlumnos.insertar(&alumno);
                 printer.print(L"Alumno registrado con éxito", PrettyPrinter::SUCCESS);
+            } ; break;
+            case 1: {
+                std::wcout << L"Ingrese la cédula del estudiante a buscar: ";
+                std::string cedula = ingresarNumero();
+                Alumno alumnoBusqueda = Alumno();
+                alumnoBusqueda.cedula = cedula;
+                Nodo* alumno = arbolAlumnos.buscar(alumnoBusqueda);
+                if (alumno != nullptr) {
+                    std::string mensaje = "Estudiante encontrado: " + alumno->getValor()->toString();
+                    printer.print(Utilidades::toWString(mensaje), PrettyPrinter::SUCCESS);
+                } else {
+                    printer.print(L"Estudiante no encontrado", PrettyPrinter::PPERROR);
+                }
+            } ; break;
+            case 2: {
+                bool continuarMenuMostrar = true;
+                do {
+                    std::vector<std::wstring> opcionesMostrar({
+                        L"Recorridos",
+                        L"Visualización gráfica",
+                        L"Volver"
+                    });
+                    MenuSelector menuMostrar = MenuSelector(L"Mostrar datos", opcionesMostrar);
+                    unsigned long opcionMostrar = menuMostrar.showMenu();
+                    switch (opcionMostrar) {
+                        case 0: {
+                            bool continuarMenuRecorridos = true;
+                            do {
+                                std::vector<std::wstring> opcionesRecorridos({
+                                    L"Pre-orden",
+                                    L"In-orden",
+                                    L"Post-orden",
+                                    L"Volver"
+                                });
+                                MenuSelector menuRecorridos = MenuSelector(L"Recorridos", opcionesRecorridos);
+                                unsigned long opcionRecorrido = menuRecorridos.showMenu();
+                                switch (opcionRecorrido) {
+                                    case 0: {
+                                        arbolAlumnos.imprimir(TipoRecorrido::PRE_ORDEN);
+                                        Utilidades::consolePause();
+                                    } ; break;
+                                    case 1: {
+                                        arbolAlumnos.imprimir(TipoRecorrido::IN_ORDEN);
+                                        Utilidades::consolePause();
+                                    } ; break;
+                                    case 2: {
+                                        arbolAlumnos.imprimir(TipoRecorrido::POST_ORDEN);
+                                        Utilidades::consolePause();
+                                    } ; break;
+                                    default: {
+                                        continuarMenuRecorridos = false;
+                                    } ; break;
+                                }
+                            } while (continuarMenuRecorridos);
+                        } ; break;
+                        case 1: {
+                            Alumno::visualizarArbol(arbolAlumnos);
+                        } ; break;
+                        default: {
+                            continuarMenuMostrar = false;
+                        } ; break;
+                    }
+                } while (continuarMenuMostrar);
             } ; break;
             default: {
                 continuarMenuPrincipal = false;
@@ -55,7 +120,7 @@ int main() {
         }
     }
 
-    guardarArchivoAlumnos(listaAlumnos);
+    guardarArchivoAlumnos(arbolAlumnos);
 
     return 1;
 }

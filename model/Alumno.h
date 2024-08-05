@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Dato.h"
+#include "ArbolRB.h"
 
 enum CriterioOrdenacionAlumno { OrdenarCedula, OrdenarNombre, OrdenarNombre2, OrdenarApellido, OrdenarApellido2 };
 
@@ -19,11 +20,11 @@ class Alumno: public Dato {
         std::string segundoNombre;
         std::string apellidoPaterno;
         std::string apellidoMaterno;
-        int cedula;
+        std::string cedula;
 
         Alumno();
         Alumno(
-            int cedula,
+            std::string cedula,
             std::string primerNombre,
             std::string segundoNombre,
             std::string apellidoPaterno,
@@ -35,9 +36,11 @@ class Alumno: public Dato {
         void guardarDatosEnArchivo(std::ofstream& archivo);
 
         std::string toString();
-        bool compMenorQue(Alumno other, int criterio);
-        bool compMayorQue(Alumno other, int criterio);
-        bool compIgualQue(Alumno other, int criterio);
+        bool compMenorQue(const Dato& other, int criterio);
+        bool compMayorQue(const Dato& other, int criterio);
+        bool compIgualQue(const Dato& other, int criterio);
+
+        static void visualizarArbol(ArbolRB& arbol);
 };
 
 std::wostream& operator << (std::wostream& outs, const Alumno& al);

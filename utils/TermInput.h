@@ -15,6 +15,7 @@
 #endif
 
 std::string ingresarCadena(bool o = false);
+std::string ingresarNumero();
 std::string ingresarCedula();
 int ingresarEntero();
 float ingresarFlotante();

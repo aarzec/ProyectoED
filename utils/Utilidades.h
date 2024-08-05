@@ -12,6 +12,7 @@ private:
 public:
     static void consolePause();
     static void clearConsole();
+    static std::wstring toWString(const std::string& str);
 };
 
 #endif

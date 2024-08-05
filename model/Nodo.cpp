@@ -1,18 +1,23 @@
 #include <iostream>
+#include <functional>
+#include "../utils/PrettyPrinter.h"
+#include "../utils/Utilidades.h"
 #include "Dato.h"
 #include "Nodo.h"
 
 Nodo::Nodo() {}
 
-Nodo::Nodo(Dato val) {
+Nodo::Nodo(Dato* val) {
     valor = val;
+    izquierda = nullptr;
+    derecha = nullptr;
 }
 
-Dato Nodo::getValor() {
+Dato* Nodo::getValor() {
     return valor;
 }
 
-void Nodo::setValor(Dato val) {
+void Nodo::setValor(Dato* val) {
     valor = val;
 }
 
@@ -33,11 +38,11 @@ void Nodo::setDerecha(Nodo* nodo) {
 }
 
 Nodo* Nodo::getPadre() {
-    return derecha;
+    return padre;
 }
 
 void Nodo::setPadre(Nodo* nodo) {
-    derecha = nodo;
+    padre = nodo;
 }
 
 ColorNodo Nodo::getColor() {
@@ -49,56 +54,61 @@ void Nodo::setColor(ColorNodo col) {
 }
 
 Nodo* Nodo::buscar(const Dato& otro, int criterio) {
-    if (valor.compIgualQue(otro, criterio))
+    if (valor->compIgualQue(otro, criterio))
         return this;
-    if (valor.compMenorQue(otro, criterio) && izquierda != nullptr)
+    if (valor->compMenorQue(otro, criterio) && izquierda != nullptr)
         return izquierda->buscar(otro, criterio);
-    if (valor.compMayorQue(otro, criterio) && derecha != nullptr)
+    if (valor->compMayorQue(otro, criterio) && derecha != nullptr)
         return derecha->buscar(otro, criterio);
     return nullptr;
 }
 
-void Nodo::recorrerInOrden(Nodo* nodo) {
+void Nodo::recorrerInOrden(Nodo* nodo, std::function<void(Nodo*)> fn) {
     if (nodo == nullptr) {
         return;
     }
 
-    recorrerInOrden(nodo->getIzquierda());
-    std::cout << nodo->getValor().toString() << " ";
-    recorrerInOrden(nodo->getDerecha());
+    recorrerInOrden(nodo->getIzquierda(), fn);
+    fn(nodo);
+    recorrerInOrden(nodo->getDerecha(), fn);
 }
 
-void Nodo::recorrerPreOrden(Nodo* nodo) {
+void Nodo::recorrerPreOrden(Nodo* nodo, std::function<void(Nodo*)> fn) {
     if (nodo == nullptr) {
         return;
     }
 
-    std::cout << nodo->getValor().toString() << " ";
-    recorrerPreOrden(nodo->getIzquierda());
-    recorrerPreOrden(nodo->getDerecha());
+    fn(nodo);
+    recorrerPreOrden(nodo->getIzquierda(), fn);
+    recorrerPreOrden(nodo->getDerecha(), fn);
 }
 
-void Nodo::recorrerPostOrden(Nodo* nodo) {
+void Nodo::recorrerPostOrden(Nodo* nodo, std::function<void(Nodo*)> fn) {
     if (nodo == nullptr) {
         return;
     }
 
-    recorrerPostOrden(nodo->getIzquierda());
-    recorrerPostOrden(nodo->getDerecha());
-    std::cout << nodo->getValor().toString() << " ";
+    recorrerPostOrden(nodo->getIzquierda(), fn);
+    recorrerPostOrden(nodo->getDerecha(), fn);
+    fn(nodo);
 }
 
 Nodo* Nodo::insertar(Nodo* nodo, Nodo* nodoInsertar, int criterio) {
-    Nodo* nodoInsertar;
-    if (nodo == nullptr)
+    PrettyPrinter::print(L"[NODO] Insertando dato: " + Utilidades::toWString(nodoInsertar->getValor()->toString()), PrettyPrinter::PPDEBUG);
+    if (nodo == nullptr) {
+        PrettyPrinter::print(L"[NODO] Nodo es nulo, insertando en nodo nuevo", PrettyPrinter::PPDEBUG);
         return nodoInsertar;
+    }
 
-    if (nodoInsertar->getValor().compMenorQue(nodo->getValor(), criterio)) {
-        nodo->setIzquierda(Nodo::insertar(nodo->getIzquierda(), nodoInsertar, criterio));
+    if ((*nodoInsertar->getValor()).compMenorQue(*nodo->getValor(), criterio)) {
+        PrettyPrinter::print(L"[NODO] Insertando en izquierda", PrettyPrinter::PPDEBUG);
+        nodo->setIzquierda(insertar(nodo->getIzquierda(), nodoInsertar, criterio));
         nodo->getIzquierda()->setPadre(nodo);
-    } else {
-        nodo->setDerecha(Nodo::insertar(nodo->getDerecha(), nodoInsertar, criterio));
+    } else if ((*nodoInsertar->getValor()).compMayorQue(*nodo->getValor(), criterio)) {
+        PrettyPrinter::print(L"[NODO] Insertando en derecha", PrettyPrinter::PPDEBUG);
+        nodo->setDerecha(insertar(nodo->getDerecha(), nodoInsertar, criterio));
         nodo->getDerecha()->setPadre(nodo);
     }
+
     return nodo;
 }

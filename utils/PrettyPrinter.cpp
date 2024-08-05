@@ -41,10 +41,15 @@ void PrettyPrinter::print(const std::wstring& message, MessageType type, bool cl
         colorCode = ConsoleColor::RED;
         title = L" ❌ Error ";
         break;
+    case PPDEBUG: {
+        std::wcout << ConsoleColor::GRAY << L"Debug: " << message << ConsoleColor::RESET << std::endl;
+        return;
+    }
     }
 
     std::wstring resetCode = L"\033[0m";
     std::wstring borderTop = L"╔" + std::wstring(message.length() + 2, L'═') + L"╗";
+    std::wstring borderMid = L"╠" + std::wstring(message.length() + 2, L'═') + L"╣";
     std::wstring borderBottom = L"╚" + std::wstring(message.length() + 2, L'═') + L"╝";
     std::wstring emptyLine = L"║" + std::wstring(message.length() + 2, L' ') + L"║";
     std::wstring messageLine = L"║ " + ConsoleColor::WHITE + message + colorCode + L" ║";
@@ -52,6 +57,7 @@ void PrettyPrinter::print(const std::wstring& message, MessageType type, bool cl
     std::wcout << colorCode;
     std::wcout << borderTop << std::endl;
     std::wcout << L"║" << title << std::wstring(message.length() + 1 - title.length(), L' ') << L"║" << std::endl;
+    std::wcout << borderMid << std::endl;
     std::wcout << emptyLine << std::endl;
     std::wcout << messageLine << std::endl;
     std::wcout << emptyLine << std::endl;

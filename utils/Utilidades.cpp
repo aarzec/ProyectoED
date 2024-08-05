@@ -17,3 +17,8 @@ void Utilidades::clearConsole() {
     #endif
 }
 
+std::wstring Utilidades::toWString(const std::string &str) {
+    std::wstring wstr(str.length(), L' ');
+    std::copy(str.begin(), str.end(), wstr.begin());
+    return wstr;
+}

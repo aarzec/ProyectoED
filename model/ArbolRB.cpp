@@ -1,7 +1,10 @@
 #include <iostream>
+#include <functional>
 #include "Dato.h"
 #include "Nodo.h"
 #include "ArbolRB.h"
+#include "../utils/PrettyPrinter.h"
+#include "../utils/Utilidades.h"
 
 ArbolRB::ArbolRB() {
     root = nullptr;
@@ -117,10 +120,26 @@ void ArbolRB::setCriterioOrdenacion(int criterio) {
     // Aquí deberíamos reordenar los elementos
 }
 
-void ArbolRB::insertar(Dato k) {
+void ArbolRB::insertar(Dato* k) {
+    PrettyPrinter::print(L"[ARBOLRB] Insertando dato: " + Utilidades::toWString(k->toString()), PrettyPrinter::PPDEBUG);
     Nodo* pt = new Nodo(k);
 
     root = Nodo::insertar(root, pt, criterioOrdenacion);
+    std::string izq = (root->getIzquierda() == nullptr ? "nullptr" : root->getIzquierda()->getValor()->toString());
+    std::string der = (root->getDerecha() == nullptr ? "nullptr" : root->getDerecha()->getValor()->toString());
+    PrettyPrinter::print(L"[ARBOLRB] Luego de insertar, la raíz es: " + Utilidades::toWString(root->getValor()->toString().c_str()) + L", a su izquierda: " + Utilidades::toWString(izq.c_str()) + L", a su derecha: " + Utilidades::toWString(der.c_str()), PrettyPrinter::PPDEBUG);
+
+    if (root->getIzquierda() != nullptr) {
+        std::string izq_izq = (root->getIzquierda()->getIzquierda() == nullptr ? "nullptr" : root->getIzquierda()->getIzquierda()->getValor()->toString());
+        std::string izq_der = (root->getIzquierda()->getDerecha() == nullptr ? "nullptr" : root->getIzquierda()->getDerecha()->getValor()->toString());
+        PrettyPrinter::print(L"[ARBOLRB] a su vez, el nodo izq de la raíz es: " + Utilidades::toWString(root->getIzquierda()->getValor()->toString().c_str()) + L", a su izquierda: " + Utilidades::toWString(izq_izq.c_str()) + L", a su derecha: " + Utilidades::toWString(izq_der.c_str()), PrettyPrinter::PPDEBUG);
+    }
+
+    if (root->getDerecha() != nullptr) {
+        std::string der_izq = (root->getDerecha()->getIzquierda() == nullptr ? "nullptr" : root->getDerecha()->getIzquierda()->getValor()->toString());
+        std::string der_der = (root->getDerecha()->getDerecha() == nullptr ? "nullptr" : root->getDerecha()->getDerecha()->getValor()->toString());
+        PrettyPrinter::print(L"[ARBOLRB] a su vez, el nodo der de la raíz es: " + Utilidades::toWString(root->getDerecha()->getValor()->toString().c_str()) + L", a su izquierda: " + Utilidades::toWString(der_izq.c_str()) + L", a su derecha: " + Utilidades::toWString(der_der.c_str()), PrettyPrinter::PPDEBUG);
+    }
 
     balancear(root, pt);
 }
@@ -129,32 +148,26 @@ Nodo* ArbolRB::buscar(const Dato& otro) {
     return root == nullptr ? nullptr : root->buscar(otro, criterioOrdenacion);
 }
 
-void ArbolRB::recorrerInOrden(Nodo* nodo) {
-    if (nodo == nullptr) {
-        return;
-    }
-
-    recorrerInOrden(nodo->getIzquierda());
-    std::cout << nodo->getValor().toString() << " ";
-    recorrerInOrden(nodo->getDerecha());
+void ArbolRB::imprimir(TipoRecorrido rec) {
+    recorrer([](Nodo* nodo){
+        Dato* dato = nodo->getValor();
+        std::wcout << L" -> " << dato->toString().c_str();
+    }, rec);
+    std::wcout << std::endl;
 }
 
-void ArbolRB::recorrerPreOrden(Nodo* nodo) {
-    if (nodo == nullptr) {
-        return;
+void ArbolRB::recorrer(std::function<void(Nodo*)> fn, TipoRecorrido rec) {
+    switch (rec) {
+    case TipoRecorrido::PRE_ORDEN:
+        Nodo::recorrerPreOrden(root, fn);
+        break;
+    case TipoRecorrido::IN_ORDEN:
+        Nodo::recorrerInOrden(root, fn);
+        break;
+    case TipoRecorrido::POST_ORDEN:
+        Nodo::recorrerPostOrden(root, fn);
+        break;
+    default:
+        break;
     }
-
-    std::cout << nodo->getValor().toString() << " ";
-    recorrerPreOrden(nodo->getIzquierda());
-    recorrerPreOrden(nodo->getDerecha());
-}
-
-void ArbolRB::recorrerPostOrden(Nodo* nodo) {
-    if (nodo == nullptr) {
-        return;
-    }
-
-    recorrerPostOrden(nodo->getIzquierda());
-    recorrerPostOrden(nodo->getDerecha());
-    std::cout << nodo->getValor().toString() << " ";
 }
