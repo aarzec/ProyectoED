@@ -5,8 +5,9 @@
 #else
 #include <unistd.h>
 #endif
-#include "./model/ListasDoble.h"
 #include "./model/Alumno.h"
+#include "./model/ArbolRB.h"
+#include "./model/Nodo.h"
 #include "./utils/PrettyPrinter.h"
 #include "./utils/ConsoleColor.h"
 #include "./utils/MenuSelector.h"
@@ -29,7 +30,7 @@ int main() {
     #endif
 
     PrettyPrinter printer;
-    ListaDoble<Alumno> listaAlumnos = leerArchivoAlumnos();
+    ArbolRB arbolAlumnos = ArbolRB(); // Por simplicidad, el árbol por defecto estará ordenado por cédula
 
     std::vector<std::wstring> opcionesMenuPrincipal({
         L"Registrar estudiante",
@@ -44,8 +45,8 @@ int main() {
         unsigned long opcionMenuPrincipal = menuPrincipal.showMenu();
         switch (opcionMenuPrincipal) {
             case 0: {
-                Alumno alumno = ingresarAlumno(listaAlumnos);
-                listaAlumnos.Insertar(alumno);
+                Alumno alumno = ingresarAlumno(arbolAlumnos);
+                arbolAlumnos.insertar(alumno);
                 printer.print(L"Alumno registrado con éxito", PrettyPrinter::SUCCESS);
             } ; break;
             default: {
