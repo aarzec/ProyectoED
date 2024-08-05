@@ -27,9 +27,10 @@ class Nodo {
 
         Nodo* buscar(const Dato& otro, int criterio);
 
-        static void recorrerInOrden(Nodo* nodo);
-        static void recorrerPreOrden(Nodo* nodo);
-        static void recorrerPostOrden(Nodo* nodo);
+        // template <typename T>
+        static void recorrerInOrden(Nodo* nodo, auto& fn);
+        static void recorrerPreOrden(Nodo* nodo, auto& fn);
+        static void recorrerPostOrden(Nodo* nodo, auto& fn);
 
         static Nodo* insertar(Nodo* nodo, Nodo* nodoInsertar, int criterio);
 };

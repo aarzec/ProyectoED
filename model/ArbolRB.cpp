@@ -3,6 +3,16 @@
 #include "Nodo.h"
 #include "ArbolRB.h"
 
+ArbolRB::ArbolRB() {
+    root = nullptr;
+    criterioOrdenacion = 0;
+}
+
+ArbolRB::ArbolRB(int criterio) {
+    root = nullptr;
+    criterioOrdenacion = criterio;
+}
+
 void ArbolRB::rotarIzquierda(Nodo*& raiz, Nodo*& pt) {
     Nodo* pt_right = pt->getDerecha();
     pt->setDerecha(pt_right->getIzquierda());
@@ -102,14 +112,49 @@ void ArbolRB::balancear(Nodo*& raiz, Nodo*& pt) {
     raiz->setColor(ColorNodo::NodoNegro);
 }
 
-void ArbolRB::insertar(Dato k, int criterio) {
+void ArbolRB::setCriterioOrdenacion(int criterio) {
+    criterioOrdenacion = criterio;
+    // Aquí deberíamos reordenar los elementos
+}
+
+void ArbolRB::insertar(Dato k) {
     Nodo* pt = new Nodo(k);
 
-    root = Nodo::insertar(root, pt, criterio);
+    root = Nodo::insertar(root, pt, criterioOrdenacion);
 
     balancear(root, pt);
 }
 
-Nodo* ArbolRB::buscar(const Dato& otro, int criterio) {
-    return root == nullptr ? nullptr : root->buscar(otro, criterio);
+Nodo* ArbolRB::buscar(const Dato& otro) {
+    return root == nullptr ? nullptr : root->buscar(otro, criterioOrdenacion);
+}
+
+void ArbolRB::recorrerInOrden(Nodo* nodo) {
+    if (nodo == nullptr) {
+        return;
+    }
+
+    recorrerInOrden(nodo->getIzquierda());
+    std::cout << nodo->getValor().toString() << " ";
+    recorrerInOrden(nodo->getDerecha());
+}
+
+void ArbolRB::recorrerPreOrden(Nodo* nodo) {
+    if (nodo == nullptr) {
+        return;
+    }
+
+    std::cout << nodo->getValor().toString() << " ";
+    recorrerPreOrden(nodo->getIzquierda());
+    recorrerPreOrden(nodo->getDerecha());
+}
+
+void ArbolRB::recorrerPostOrden(Nodo* nodo) {
+    if (nodo == nullptr) {
+        return;
+    }
+
+    recorrerPostOrden(nodo->getIzquierda());
+    recorrerPostOrden(nodo->getDerecha());
+    std::cout << nodo->getValor().toString() << " ";
 }

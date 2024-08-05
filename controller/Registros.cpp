@@ -41,14 +41,14 @@ ListaDoble<Alumno> leerArchivoAlumnos() {
     for (unsigned int i = 0; i < listaDoc.Size(); i++) {
         Value& objAlumno = listaDoc[i];
         listaAlumnos.Insertar(
-            Alumno(objAlumno["id"].GetInt(), objAlumno["nombre"].GetString(), objAlumno["segundoNombre"].GetString(), objAlumno["apellido"].GetString())
+            Alumno(objAlumno["id"].GetInt(), objAlumno["primerNombre"].GetString(), objAlumno["segundoNombre"].GetString(), objAlumno["apellidoPaterno"].GetString())
         );
     }
 
     return listaAlumnos;
 }
 
-void guardarArchivoAlumnos(ListaDoble<Alumno>& listaAlumnos) {
+void guardarArchivoAlumnos(ArbolRB& arbolAlumnos) {
     FILE* fp = fopen(archivoAlumnos, "w"); 
 
     char writeBuffer[65536]; 
@@ -62,10 +62,10 @@ void guardarArchivoAlumnos(ListaDoble<Alumno>& listaAlumnos) {
     while (nodo != nullptr) {
         Alumno al = nodo->getDato();
         rapidjson::Value objAlumno(rapidjson::kObjectType);
-        objAlumno.AddMember("id", al.numeroUnico, allocator);
-        objAlumno.AddMember("nombre", rapidjson::Value(al.nombre.c_str(), allocator), allocator);
+        objAlumno.AddMember("id", al.cedula, allocator);
+        objAlumno.AddMember("primerNombre", rapidjson::Value(al.primerNombre.c_str(), allocator), allocator);
         objAlumno.AddMember("segundoNombre", rapidjson::Value(al.segundoNombre.c_str(), allocator), allocator);
-        objAlumno.AddMember("apellido", rapidjson::Value(al.apellido.c_str(), allocator), allocator);
+        objAlumno.AddMember("apellidoPaterno", rapidjson::Value(al.apellidoPaterno.c_str(), allocator), allocator);
 
         d.PushBack(objAlumno, allocator);
         nodo = nodo->getSiguiente();
@@ -77,14 +77,14 @@ void guardarArchivoAlumnos(ListaDoble<Alumno>& listaAlumnos) {
     fclose(fp);
 }
 
-int obtenerIndiceMasAlto(ListaDoble<Alumno>& listaAlumnos) {
+int obtenerIndiceMasAlto(ArbolRB& arbolAlumnos) {
     Nodo<Alumno>* nodoActual = listaAlumnos.primero;
     int maxId = -1;
 
     while (nodoActual != nullptr) {
         Alumno al = nodoActual->getDato();
-        if (al.numeroUnico > maxId) {
-            maxId = al.numeroUnico;
+        if (al.cedula > maxId) {
+            maxId = al.cedula;
         }
         nodoActual = nodoActual->getSiguiente();
     }
@@ -92,7 +92,7 @@ int obtenerIndiceMasAlto(ListaDoble<Alumno>& listaAlumnos) {
     return maxId;
 }
 
-Alumno ingresarAlumno(ListaDoble<Alumno>& listaAlumnos) {
+Alumno ingresarAlumno(ArbolRB& arbolAlumnos) {
     std::string nombre1, nombre2, apellidoPaterno, apellidoMaterno;
 
     std::wcout << "Ingrese el primer nombre: ";
@@ -100,9 +100,9 @@ Alumno ingresarAlumno(ListaDoble<Alumno>& listaAlumnos) {
     nombre1 = ingresarCadena(true);
     std::wcout << "Ingrese el segundo nombre: ";
     nombre2 = ingresarCadena();
-    std::wcout << "Ingrese el apellido: ";
+    std::wcout << "Ingrese el apellidoPaterno: ";
     apellidoPaterno = ingresarCadena(true);
-    // std::cout << "Ingrese el apellido materno: ";
+    // std::cout << "Ingrese el apellidoPaterno materno: ";
     // apellidoMaterno = ingresarCadena();
 
     Alumno alumno = Alumno(obtenerIndiceMasAlto(listaAlumnos) + 1, nombre1, nombre2, apellidoPaterno);

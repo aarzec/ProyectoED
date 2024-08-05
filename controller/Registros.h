@@ -2,11 +2,12 @@
 #define REGISTROS_H
 
 #include "../model/Alumno.h"
+#include "../model/ArbolRB.h"
 #include "../model/ListasDoble.h"
 
 ListaDoble<Alumno> leerArchivoAlumnos();
-void guardarArchivoAlumnos(ListaDoble<Alumno>& listaAlumnos);
-int obtenerIndiceMasAlto(ListaDoble<Alumno>& listaAlumnos);
-Alumno ingresarAlumno(ListaDoble<Alumno>& listaAlumnos);
+void guardarArchivoAlumnos(ArbolRB& arbolAlumnos);
+int obtenerIndiceMasAlto(ArbolRB& arbolAlumnos);
+Alumno ingresarAlumno(ArbolRB& arbolAlumnos);
 
 #endif

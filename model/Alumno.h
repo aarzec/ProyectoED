@@ -6,7 +6,7 @@
 
 enum CriterioOrdenacionAlumno { OrdenarCedula, OrdenarNombre, OrdenarNombre2, OrdenarApellido, OrdenarApellido2 };
 
-class Alumno: Dato {
+class Alumno: public Dato {
     private:
         float nota1;
         float nota2;
@@ -15,13 +15,20 @@ class Alumno: Dato {
         bool aprobado;
 
     public:
-        std::string nombre;
+        std::string primerNombre;
         std::string segundoNombre;
-        std::string apellido;
-        int numeroUnico;
+        std::string apellidoPaterno;
+        std::string apellidoMaterno;
+        int cedula;
 
         Alumno();
-        Alumno(int numeroUnico, std::string nombre, std::string segundoNombre, std::string apellido);
+        Alumno(
+            int cedula,
+            std::string primerNombre,
+            std::string segundoNombre,
+            std::string apellidoPaterno,
+            std::string apellidoMaterno
+        );
         void ingresarNotas(float nota1, float nota2, float nota3);
         void calcularPromedio();
         void verificarAprobacion();

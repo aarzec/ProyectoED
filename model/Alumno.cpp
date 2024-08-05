@@ -5,8 +5,8 @@
 
 Alumno::Alumno(){}
 
-Alumno::Alumno(int numeroUnico, std::string nombre, std::string segundoNombre, std::string apellido)
-    : nombre(nombre), segundoNombre(segundoNombre), apellido(apellido), numeroUnico(numeroUnico) {}
+Alumno::Alumno(int cedula, std::string primerNombre, std::string segundoNombre, std::string apellidoPaterno, std::string apellidoMaterno)
+    : primerNombre(primerNombre), segundoNombre(segundoNombre), apellidoPaterno(apellidoPaterno), cedula(cedula) {}
 
 void Alumno::ingresarNotas(float nota1, float nota2, float nota3) {
     this->nota1 = nota1;
@@ -23,8 +23,8 @@ void Alumno::verificarAprobacion() {
 }
 
 void Alumno::guardarDatosEnArchivo(std::ofstream& archivo) {
-    archivo << "Nombre: " << nombre << " " << segundoNombre << " " << apellido << std::endl;
-    archivo << "Número único: " << numeroUnico << std::endl;
+    archivo << "Nombre: " << primerNombre << " " << segundoNombre << " " << apellidoPaterno << std::endl;
+    archivo << "Número único: " << cedula << std::endl;
     archivo << "Notas: " << nota1 << ", " << nota2 << ", " << nota3 << std::endl;
     archivo << "Promedio: " << promedio << std::endl;
     archivo << "Aprobado: " << (aprobado ? "Sí" : "No") << std::endl << std::endl;
@@ -32,10 +32,10 @@ void Alumno::guardarDatosEnArchivo(std::ofstream& archivo) {
 
 std::string Alumno::toString() {
     return "Alumno{" +
-    std::to_string(numeroUnico) + ", " +
-    nombre + ", " +
+    std::to_string(cedula) + ", " +
+    primerNombre + ", " +
     segundoNombre + ", " +
-    apellido +
+    apellidoPaterno +
     "}";
 }
 
@@ -54,9 +54,9 @@ bool Alumno::compIgualQue(Alumno other, int criterio) {
 std::wostream& operator << ( std::wostream& outs, const Alumno& al ) {
     return outs <<
     "Alumno{" <<
-    al.numeroUnico << ", " <<
-    al.nombre << ", " <<
+    al.cedula << ", " <<
+    al.primerNombre << ", " <<
     al.segundoNombre << ", " <<
-    al.apellido <<
+    al.apellidoPaterno <<
     "}";
 }
