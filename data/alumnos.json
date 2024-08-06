@@ -7,29 +7,22 @@
         "apellidoMaterno": "Mera"
     },
     {
-        "cedula": "1717807182",
-        "primerNombre": "A",
-        "segundoNombre": "B",
-        "apellidoPaterno": "C",
-        "apellidoMaterno": "D"
+        "cedula": "1307990070",
+        "primerNombre": "Pablo",
+        "segundoNombre": "Alverto",
+        "apellidoPaterno": "Rodriguez",
+        "apellidoMaterno": "Mera"
     },
     {
-        "cedula": "17272434845",
-        "primerNombre": "Andres",
+        "cedula": "1703111564",
+        "primerNombre": "Carla",
         "segundoNombre": "Alejandro",
         "apellidoPaterno": "Romero",
         "apellidoMaterno": "Zambrano"
     },
     {
-        "cedula": "1709839664",
-        "primerNombre": "Andrea",
-        "segundoNombre": "Alejandro",
-        "apellidoPaterno": "Romero",
-        "apellidoMaterno": "Zambrano"
-    },
-    {
-        "cedula": "17211434845",
-        "primerNombre": "Luis",
+        "cedula": "1703111566",
+        "primerNombre": "Sara",
         "segundoNombre": "Alejandro",
         "apellidoPaterno": "Romero",
         "apellidoMaterno": "Zambrano"
@@ -42,6 +35,27 @@
         "apellidoMaterno": "Zambrano"
     },
     {
+        "cedula": "1709839664",
+        "primerNombre": "Andrea",
+        "segundoNombre": "Alejandro",
+        "apellidoPaterno": "Romero",
+        "apellidoMaterno": "Zambrano"
+    },
+    {
+        "cedula": "1717807182",
+        "primerNombre": "A",
+        "segundoNombre": "B",
+        "apellidoPaterno": "C",
+        "apellidoMaterno": "D"
+    },
+    {
+        "cedula": "1717807183",
+        "primerNombre": "A",
+        "segundoNombre": "B",
+        "apellidoPaterno": "C",
+        "apellidoMaterno": "D"
+    },
+    {
         "cedula": "17211434225",
         "primerNombre": "Luisa",
         "segundoNombre": "Alejandro",
@@ -49,8 +63,22 @@
         "apellidoMaterno": "Zambrano"
     },
     {
-        "cedula": "1703111564",
-        "primerNombre": "Carla",
+        "cedula": "1738323231",
+        "primerNombre": "Belen",
+        "segundoNombre": "Alejandro",
+        "apellidoPaterno": "Romero",
+        "apellidoMaterno": "Zambrano"
+    },
+    {
+        "cedula": "1721143774225",
+        "primerNombre": "Luis",
+        "segundoNombre": "Alejandro",
+        "apellidoPaterno": "Romero",
+        "apellidoMaterno": "Zambrano"
+    },
+    {
+        "cedula": "173832323001",
+        "primerNombre": "Benjamin",
         "segundoNombre": "Alejandro",
         "apellidoPaterno": "Romero",
         "apellidoMaterno": "Zambrano"

@@ -2,6 +2,7 @@
 #include <functional>
 #include "Dato.h"
 #include "Nodo.h"
+#include "Alumno.h"
 #include "ArbolRB.h"
 #include "../utils/PrettyPrinter.h"
 #include "../utils/Utilidades.h"
@@ -145,7 +146,15 @@ void ArbolRB::insertar(Dato* k) {
 }
 
 Nodo* ArbolRB::buscar(const Dato& otro) {
-    return root == nullptr ? nullptr : root->buscar(otro, criterioOrdenacion);
+    Nodo* result = nullptr;
+    Nodo::recorrerInOrden(root, [&result, &otro](Nodo* nodo){
+        Dato* dato = nodo->getValor();
+        Alumno al = dynamic_cast<Alumno&>(*dato);
+        if (al.cedula == dynamic_cast<const Alumno&>(otro).cedula) {
+            result = nodo;
+        }
+    });
+    return result;
 }
 
 void ArbolRB::imprimir(TipoRecorrido rec) {

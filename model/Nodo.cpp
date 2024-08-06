@@ -4,6 +4,7 @@
 #include "../utils/Utilidades.h"
 #include "Dato.h"
 #include "Nodo.h"
+#include "Alumno.h"
 
 Nodo::Nodo() {}
 
@@ -111,4 +112,35 @@ Nodo* Nodo::insertar(Nodo* nodo, Nodo* nodoInsertar, int criterio) {
     }
 
     return nodo;
+}
+
+int Nodo::numeroAbuelos(Nodo *nodo) {
+    if (nodo == nullptr) {
+        return 0;
+    }
+
+    int abuelos = 0;
+    bool abuelosDer = false;
+    bool abuelosIZq = false;
+    if (
+        nodo->getIzquierda() != nullptr &&
+        (nodo->getIzquierda()->getIzquierda() != nullptr || nodo->getIzquierda()->getDerecha() != nullptr)
+    ) {
+        abuelosDer = true;
+    }
+    if (
+        nodo->getDerecha() != nullptr &&
+        (nodo->getDerecha()->getIzquierda() != nullptr || nodo->getDerecha()->getDerecha() != nullptr)
+    ) {
+        abuelosIZq = true;
+    }
+
+    if (abuelosDer || abuelosIZq) {
+        Dato* dato = nodo->getValor();
+        Alumno al = dynamic_cast<Alumno&>(*dato);
+        std::wcout << al.primerNombre.c_str() << L", ";
+        abuelos++;
+    }
+
+    return abuelos + numeroAbuelos(nodo->getIzquierda()) + numeroAbuelos(nodo->getDerecha());
 }

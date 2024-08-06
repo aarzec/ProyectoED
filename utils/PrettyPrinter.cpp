@@ -12,6 +12,8 @@
 #include "PrettyPrinter.h"
 #include "Utilidades.h"
 
+const bool DEBUG = false;
+
 PrettyPrinter::PrettyPrinter() {
     std::locale::global(std::locale(""));
 }
@@ -42,7 +44,9 @@ void PrettyPrinter::print(const std::wstring& message, MessageType type, bool cl
         title = L" ❌ Error ";
         break;
     case PPDEBUG: {
-        std::wcout << ConsoleColor::GRAY << L"Debug: " << message << ConsoleColor::RESET << std::endl;
+        if (DEBUG) {
+            std::wcout << ConsoleColor::GRAY << L"Debug: " << message << ConsoleColor::RESET << std::endl;
+        }
         return;
     }
     }

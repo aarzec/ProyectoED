@@ -36,6 +36,7 @@ int main() {
         L"Registrar estudiante",
         L"Buscar datos",
         L"Mostrar datos",
+        L"Ver número de abuelos",
         L"Salir"
     });
 
@@ -43,15 +44,19 @@ int main() {
     MenuSelector menuPrincipal = MenuSelector(L"Menú Principal", opcionesMenuPrincipal);
 
     while (continuarMenuPrincipal) {
-        // Utilidades::clearConsole();
+        Utilidades::clearConsole();
         unsigned long opcionMenuPrincipal = menuPrincipal.showMenu();
         switch (opcionMenuPrincipal) {
             case 0: {
+                Utilidades::clearConsole();
                 Alumno alumno = ingresarAlumno(arbolAlumnos);
                 arbolAlumnos.insertar(&alumno);
+                guardarArchivoAlumnos(arbolAlumnos);
+                arbolAlumnos = leerArchivoAlumnos();
                 printer.print(L"Alumno registrado con éxito", PrettyPrinter::SUCCESS);
             } ; break;
             case 1: {
+                Utilidades::clearConsole();
                 std::wcout << L"Ingrese la cédula del estudiante a buscar: ";
                 std::string cedula = ingresarNumero();
                 Alumno alumnoBusqueda = Alumno();
@@ -65,6 +70,7 @@ int main() {
                 }
             } ; break;
             case 2: {
+                Utilidades::clearConsole();
                 bool continuarMenuMostrar = true;
                 do {
                     std::vector<std::wstring> opcionesMostrar({
@@ -113,6 +119,11 @@ int main() {
                         } ; break;
                     }
                 } while (continuarMenuMostrar);
+            } ; break;
+            case 3: {
+                Utilidades::clearConsole();
+                std::wcout << L"Abuelos del árbol: " << Nodo::numeroAbuelos(arbolAlumnos.root) << std::endl;
+                Utilidades::consolePause();
             } ; break;
             default: {
                 continuarMenuPrincipal = false;

@@ -45,6 +45,7 @@ bool Alumno::compMenorQue(const Dato& otherDato, int criterio) {
     const Alumno& other = dynamic_cast<const Alumno&>(otherDato);
     switch (criterio) {
         case OrdenarCedula:
+            PrettyPrinter::print(cedula + L" < " + other.cedula + L" -> " + (cedula < other.cedula ? "1" : "0"), PrettyPrinter::PPDEBUG);
             return cedula < other.cedula;
         case OrdenarNombre:
             return primerNombre < other.primerNombre;
@@ -63,6 +64,7 @@ bool Alumno::compMayorQue(const Dato& otherDato, int criterio) {
     const Alumno& other = dynamic_cast<const Alumno&>(otherDato);
     switch (criterio) {
         case OrdenarCedula:
+            PrettyPrinter::print(cedula + L" > " + other.cedula + L" -> " + (cedula > other.cedula ? "1" : "0"), PrettyPrinter::PPDEBUG);
             return cedula > other.cedula;
         case OrdenarNombre:
             return primerNombre > other.primerNombre;
@@ -81,6 +83,7 @@ bool Alumno::compIgualQue(const Dato& otherDato, int criterio) {
     const Alumno& other = dynamic_cast<const Alumno&>(otherDato);
     switch (criterio) {
         case OrdenarCedula:
+            PrettyPrinter::print(cedula + L" == " + other.cedula + L" -> " + (cedula == other.cedula ? "1" : "0"), PrettyPrinter::PPDEBUG);
             return cedula == other.cedula;
         case OrdenarNombre:
             return primerNombre == other.primerNombre;
@@ -170,7 +173,9 @@ set offsets 0.25, 0.25, 0.25, 0.25
 plot $Tree u 2:3:(dx($1)):(dy($1)):(strcol(5)) w vec nohead ls -1 not,\
         '' u 2:3:(strcol(4)) w p pt 7 ps 6 lc rgb var not, \
         '' u 2:3 w p pt 6 ps 6 lw 1.5 lc rgb "white" not, \
+        '' u 2:3:4 w labels tc rgb "black" offset 0.05,0.05 center notitle, \
         '' u 2:3:4 w labels tc rgb "white" offset 0,0.1 center notitle, \
+        '' u 2:3:5 w labels tc rgb "black" offset 0.05,2.55 center notitle, \
         '' u 2:3:5 w labels tc rgb "white" offset 0,2.5 center notitle
 ### end of code)";
     gp << script;

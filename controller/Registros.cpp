@@ -16,6 +16,7 @@
 #endif
 
 #include "../model/Alumno.h"
+#include "../model/Validaciones.h"
 #include "../utils/PrettyPrinter.h"
 #include "../utils/MenuSelector.h"
 #include "../utils/TermInput.h"
@@ -60,8 +61,6 @@ void guardarArchivoAlumnos(ArbolRB& arbolAlumnos) {
     d.SetArray();
     rapidjson::Document::AllocatorType& allocator = d.GetAllocator();
 
-    arbolAlumnos.imprimir(TipoRecorrido::IN_ORDEN);
-
     try {
     arbolAlumnos.recorrer([&allocator, &d](Nodo* nodo) {
         Dato* dato = nodo->getValor();
@@ -94,8 +93,27 @@ void guardarArchivoAlumnos(ArbolRB& arbolAlumnos) {
 Alumno ingresarAlumno(ArbolRB& arbolAlumnos) {
     std::string cedula, nombre1, nombre2, apellidoPaterno, apellidoMaterno;
 
-    std::wcout << L"Ingrese la cédula: ";
-    cedula = ingresarNumero();
+    bool cedulaValida = false;
+    while (!cedulaValida) {
+        std::wcout << L"Ingrese la cédula: ";
+        cedula = ingresarNumero();
+
+        Alumno alumnoBusqueda = Alumno();
+        alumnoBusqueda.cedula = cedula;
+        Nodo* alumno = arbolAlumnos.buscar(alumnoBusqueda);
+
+        cedulaValida = true;
+
+        if (!validarCedula(cedula)) {
+            PrettyPrinter::print(L"Cédula inválida por favor intenta de nuevo", PrettyPrinter::PPERROR, true);
+            cedulaValida = false;
+        }
+        
+        if (alumno != nullptr) { 
+            PrettyPrinter::print(L"Cédula ya está registrada", PrettyPrinter::PPERROR, true);
+            cedulaValida = false;
+        }
+    }
     std::wcout << L"Ingrese el primer nombre: ";
     nombre1 = ingresarCadena(true);
     std::wcout << L"Ingrese el segundo nombre: ";

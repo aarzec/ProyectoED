@@ -34,6 +34,8 @@ class Nodo {
         static void recorrerPostOrden(Nodo* nodo, std::function<void(Nodo*)> fn);
 
         static Nodo* insertar(Nodo* nodo, Nodo* nodoInsertar, int criterio);
+
+        static int numeroAbuelos(Nodo* nodo);
 };
 
 #endif
