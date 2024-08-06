@@ -8,12 +8,14 @@ enum ColorNodo { NodoRojo, NodoNegro };
 
 class Nodo {
     private:
+        
+    public:
         Dato* valor;
         Nodo* izquierda = nullptr;
         Nodo* derecha = nullptr;
         Nodo* padre = nullptr;
         ColorNodo color;
-    public:
+
         Nodo();
         Nodo(Dato* val);
         Dato* getValor();
@@ -27,13 +29,9 @@ class Nodo {
         void setPadre(Nodo* nodo);
         void setColor(ColorNodo col);
 
-        Nodo* buscar(const Dato& otro, int criterio);
-
         static void recorrerInOrden(Nodo* nodo, std::function<void(Nodo*)> fn);
         static void recorrerPreOrden(Nodo* nodo, std::function<void(Nodo*)> fn);
         static void recorrerPostOrden(Nodo* nodo, std::function<void(Nodo*)> fn);
-
-        static Nodo* insertar(Nodo* nodo, Nodo* nodoInsertar, int criterio);
 
         static int numeroAbuelos(Nodo* nodo);
 };

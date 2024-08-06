@@ -54,16 +54,6 @@ void Nodo::setColor(ColorNodo col) {
     color = col;
 }
 
-Nodo* Nodo::buscar(const Dato& otro, int criterio) {
-    if (valor->compIgualQue(otro, criterio))
-        return this;
-    if (valor->compMenorQue(otro, criterio) && izquierda != nullptr)
-        return izquierda->buscar(otro, criterio);
-    if (valor->compMayorQue(otro, criterio) && derecha != nullptr)
-        return derecha->buscar(otro, criterio);
-    return nullptr;
-}
-
 void Nodo::recorrerInOrden(Nodo* nodo, std::function<void(Nodo*)> fn) {
     if (nodo == nullptr) {
         return;
@@ -94,26 +84,6 @@ void Nodo::recorrerPostOrden(Nodo* nodo, std::function<void(Nodo*)> fn) {
     fn(nodo);
 }
 
-Nodo* Nodo::insertar(Nodo* nodo, Nodo* nodoInsertar, int criterio) {
-    PrettyPrinter::print(L"[NODO] Insertando dato: " + Utilidades::toWString(nodoInsertar->getValor()->toString()), PrettyPrinter::PPDEBUG);
-    if (nodo == nullptr) {
-        PrettyPrinter::print(L"[NODO] Nodo es nulo, insertando en nodo nuevo", PrettyPrinter::PPDEBUG);
-        return nodoInsertar;
-    }
-
-    if ((*nodoInsertar->getValor()).compMenorQue(*nodo->getValor(), criterio)) {
-        PrettyPrinter::print(L"[NODO] Insertando en izquierda", PrettyPrinter::PPDEBUG);
-        nodo->setIzquierda(insertar(nodo->getIzquierda(), nodoInsertar, criterio));
-        nodo->getIzquierda()->setPadre(nodo);
-    } else if ((*nodoInsertar->getValor()).compMayorQue(*nodo->getValor(), criterio)) {
-        PrettyPrinter::print(L"[NODO] Insertando en derecha", PrettyPrinter::PPDEBUG);
-        nodo->setDerecha(insertar(nodo->getDerecha(), nodoInsertar, criterio));
-        nodo->getDerecha()->setPadre(nodo);
-    }
-
-    return nodo;
-}
-
 int Nodo::numeroAbuelos(Nodo *nodo) {
     if (nodo == nullptr) {
         return 0;
@@ -138,7 +108,7 @@ int Nodo::numeroAbuelos(Nodo *nodo) {
     if (abuelosDer || abuelosIZq) {
         Dato* dato = nodo->getValor();
         Alumno al = dynamic_cast<Alumno&>(*dato);
-        std::wcout << al.primerNombre.c_str() << L", ";
+        std::wcout <<  L"- " << al.primerNombre.c_str() << L"\n";
         abuelos++;
     }
 

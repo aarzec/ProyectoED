@@ -41,7 +41,7 @@ std::string Alumno::toString() {
     "}";
 }
 
-bool Alumno::compMenorQue(const Dato& otherDato, int criterio) {
+bool Alumno::compMenorQue(const Dato& otherDato, int criterio) const {
     const Alumno& other = dynamic_cast<const Alumno&>(otherDato);
     switch (criterio) {
         case OrdenarCedula:
@@ -60,7 +60,7 @@ bool Alumno::compMenorQue(const Dato& otherDato, int criterio) {
     }
 }
 
-bool Alumno::compMayorQue(const Dato& otherDato, int criterio) {
+bool Alumno::compMayorQue(const Dato& otherDato, int criterio) const {
     const Alumno& other = dynamic_cast<const Alumno&>(otherDato);
     switch (criterio) {
         case OrdenarCedula:
@@ -79,7 +79,7 @@ bool Alumno::compMayorQue(const Dato& otherDato, int criterio) {
     }
 }
 
-bool Alumno::compIgualQue(const Dato& otherDato, int criterio) {
+bool Alumno::compIgualQue(const Dato& otherDato, int criterio) const {
     const Alumno& other = dynamic_cast<const Alumno&>(otherDato);
     switch (criterio) {
         case OrdenarCedula:
@@ -175,8 +175,8 @@ plot $Tree u 2:3:(dx($1)):(dy($1)):(strcol(5)) w vec nohead ls -1 not,\
         '' u 2:3 w p pt 6 ps 6 lw 1.5 lc rgb "white" not, \
         '' u 2:3:4 w labels tc rgb "black" offset 0.05,0.05 center notitle, \
         '' u 2:3:4 w labels tc rgb "white" offset 0,0.1 center notitle, \
-        '' u 2:3:5 w labels tc rgb "black" offset 0.05,2.55 center notitle, \
-        '' u 2:3:5 w labels tc rgb "white" offset 0,2.5 center notitle
+        '' u 2:3:5 w labels tc rgb "black" offset 0.05,1.95 center notitle, \
+        '' u 2:3:5 w labels tc rgb "white" offset 0,2 center notitle
 ### end of code)";
     gp << script;
 }

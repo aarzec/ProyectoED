@@ -73,15 +73,18 @@ int main() {
                 Utilidades::clearConsole();
                 bool continuarMenuMostrar = true;
                 do {
+                    Utilidades::clearConsole();
                     std::vector<std::wstring> opcionesMostrar({
                         L"Recorridos",
                         L"Visualización gráfica",
                         L"Volver"
                     });
                     MenuSelector menuMostrar = MenuSelector(L"Mostrar datos", opcionesMostrar);
+                    Utilidades::clearConsole();
                     unsigned long opcionMostrar = menuMostrar.showMenu();
                     switch (opcionMostrar) {
                         case 0: {
+                            Utilidades::clearConsole();
                             bool continuarMenuRecorridos = true;
                             do {
                                 std::vector<std::wstring> opcionesRecorridos({
@@ -91,17 +94,21 @@ int main() {
                                     L"Volver"
                                 });
                                 MenuSelector menuRecorridos = MenuSelector(L"Recorridos", opcionesRecorridos);
+                                Utilidades::clearConsole();
                                 unsigned long opcionRecorrido = menuRecorridos.showMenu();
                                 switch (opcionRecorrido) {
                                     case 0: {
+                                        Utilidades::clearConsole();
                                         arbolAlumnos.imprimir(TipoRecorrido::PRE_ORDEN);
                                         Utilidades::consolePause();
                                     } ; break;
                                     case 1: {
+                                        Utilidades::clearConsole();
                                         arbolAlumnos.imprimir(TipoRecorrido::IN_ORDEN);
                                         Utilidades::consolePause();
                                     } ; break;
                                     case 2: {
+                                        Utilidades::clearConsole();
                                         arbolAlumnos.imprimir(TipoRecorrido::POST_ORDEN);
                                         Utilidades::consolePause();
                                     } ; break;
@@ -112,9 +119,11 @@ int main() {
                             } while (continuarMenuRecorridos);
                         } ; break;
                         case 1: {
+                            Utilidades::clearConsole();
                             Alumno::visualizarArbol(arbolAlumnos);
                         } ; break;
                         default: {
+                            Utilidades::clearConsole();
                             continuarMenuMostrar = false;
                         } ; break;
                     }
@@ -122,10 +131,13 @@ int main() {
             } ; break;
             case 3: {
                 Utilidades::clearConsole();
-                std::wcout << L"Abuelos del árbol: " << Nodo::numeroAbuelos(arbolAlumnos.root) << std::endl;
+                std::wcout << ConsoleColor::BG_BLUE << ConsoleColor::BLACK << L"  Abuelos del árbol  \n" << ConsoleColor::RESET << ConsoleColor::YELLOW << std::endl;
+                int nAbuelos = Nodo::numeroAbuelos(arbolAlumnos.root);
+                std::wcout << ConsoleColor::GREEN  << L"= " << nAbuelos << L" abuelos" << ConsoleColor::RESET << L"\n\n";
                 Utilidades::consolePause();
             } ; break;
             default: {
+                Utilidades::clearConsole();
                 continuarMenuPrincipal = false;
             }; break;
         }

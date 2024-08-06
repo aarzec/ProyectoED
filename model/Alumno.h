@@ -36,9 +36,9 @@ class Alumno: public Dato {
         void guardarDatosEnArchivo(std::ofstream& archivo);
 
         std::string toString();
-        bool compMenorQue(const Dato& other, int criterio);
-        bool compMayorQue(const Dato& other, int criterio);
-        bool compIgualQue(const Dato& other, int criterio);
+        bool compMenorQue(const Dato& other, int criterio) const;
+        bool compMayorQue(const Dato& other, int criterio) const;
+        bool compIgualQue(const Dato& other, int criterio) const;
 
         static void visualizarArbol(ArbolRB& arbol);
 };

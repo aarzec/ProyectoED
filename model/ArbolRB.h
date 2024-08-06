@@ -16,10 +16,15 @@ public:
     ArbolRB(int criterioOrdenacion);
     void insertar(Dato* k);
     Nodo* buscar(const Dato& otro);
-    void rotarIzquierda(Nodo*& raiz, Nodo*& pt);
-    void rotarDerecha(Nodo*& raiz, Nodo*& pt);
-    void balancear(Nodo*& raiz, Nodo*& pt);
-    
+    void rotarIzquierda(Nodo*);
+    void rotarDerecha(Nodo*);
+    void balancear(Nodo*);
+    void balancearEliminar(Nodo*);
+    void trasponer(Nodo*, Nodo*);
+    void eliminar(Nodo*);
+    void eliminar(Dato*);
+    Nodo* minimo(Nodo*);
+
     void imprimir(TipoRecorrido rec);
     void recorrer(std::function<void(Nodo*)> fn, TipoRecorrido rec);
 

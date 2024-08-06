@@ -25,7 +25,6 @@ unsigned long MenuSelector::showMenu() {
 
         if (choice < 1 || choice > options.size()) {
             printer.print(L"Opción inválida. Vuelva a intentar", PrettyPrinter::PPERROR);
-            Utilidades::consolePause();
             continue;
         }
         return choice - 1;

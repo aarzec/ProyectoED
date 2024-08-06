@@ -19,10 +19,6 @@ PrettyPrinter::PrettyPrinter() {
 }
 
 void PrettyPrinter::print(const std::wstring& message, MessageType type, bool clearConsole, bool pause) {
-    if (clearConsole) {
-        Utilidades::clearConsole();
-    }
-    
     std::wstring colorCode;
     std::wstring title;
 
@@ -70,6 +66,10 @@ void PrettyPrinter::print(const std::wstring& message, MessageType type, bool cl
 
     if (pause) {
         Utilidades::consolePause();
+    }
+
+    if (clearConsole) {
+        Utilidades::clearConsole();
     }
 }
 

@@ -158,7 +158,11 @@ int ingresarEntero() {
         str += ch;
     } while (true);
     std::wcout << std::endl;
-    return std::stoi(str);
+    try {
+        return std::stoi(str);
+    } catch (std::invalid_argument e) {
+        return 0;
+    }
 }
 
 float ingresarFlotante() {
