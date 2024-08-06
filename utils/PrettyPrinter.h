@@ -19,10 +19,11 @@ class PrettyPrinter {
             INFO,
             WARNING,
             SUCCESS,
-            PPERROR
+            PPERROR,
+            PPDEBUG
         };
         PrettyPrinter();
-        void print(const std::wstring& message, MessageType type, bool clearConsole = false, bool pause = true);
+        static void print(const std::wstring& message, MessageType type, bool clearConsole = false, bool pause = true);
 
     private:
         bool clearConsole;

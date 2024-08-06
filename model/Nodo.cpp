@@ -1,18 +1,24 @@
 #include <iostream>
+#include <functional>
+#include "../utils/PrettyPrinter.h"
+#include "../utils/Utilidades.h"
 #include "Dato.h"
 #include "Nodo.h"
+#include "Alumno.h"
 
 Nodo::Nodo() {}
 
-Nodo::Nodo(Dato val) {
+Nodo::Nodo(Dato* val) {
     valor = val;
+    izquierda = nullptr;
+    derecha = nullptr;
 }
 
-Dato Nodo::getValor() {
+Dato* Nodo::getValor() {
     return valor;
 }
 
-void Nodo::setValor(Dato val) {
+void Nodo::setValor(Dato* val) {
     valor = val;
 }
 
@@ -33,11 +39,11 @@ void Nodo::setDerecha(Nodo* nodo) {
 }
 
 Nodo* Nodo::getPadre() {
-    return derecha;
+    return padre;
 }
 
 void Nodo::setPadre(Nodo* nodo) {
-    derecha = nodo;
+    padre = nodo;
 }
 
 ColorNodo Nodo::getColor() {
@@ -48,57 +54,63 @@ void Nodo::setColor(ColorNodo col) {
     color = col;
 }
 
-Nodo* Nodo::buscar(const Dato& otro, int criterio) {
-    if (valor.compIgualQue(otro, criterio))
-        return this;
-    if (valor.compMenorQue(otro, criterio) && izquierda != nullptr)
-        return izquierda->buscar(otro, criterio);
-    if (valor.compMayorQue(otro, criterio) && derecha != nullptr)
-        return derecha->buscar(otro, criterio);
-    return nullptr;
-}
-
-void Nodo::recorrerInOrden(Nodo* nodo) {
+void Nodo::recorrerInOrden(Nodo* nodo, std::function<void(Nodo*)> fn) {
     if (nodo == nullptr) {
         return;
     }
 
-    recorrerInOrden(nodo->getIzquierda());
-    std::cout << nodo->getValor().toString() << " ";
-    recorrerInOrden(nodo->getDerecha());
+    recorrerInOrden(nodo->getIzquierda(), fn);
+    fn(nodo);
+    recorrerInOrden(nodo->getDerecha(), fn);
 }
 
-void Nodo::recorrerPreOrden(Nodo* nodo) {
+void Nodo::recorrerPreOrden(Nodo* nodo, std::function<void(Nodo*)> fn) {
     if (nodo == nullptr) {
         return;
     }
 
-    std::cout << nodo->getValor().toString() << " ";
-    recorrerPreOrden(nodo->getIzquierda());
-    recorrerPreOrden(nodo->getDerecha());
+    fn(nodo);
+    recorrerPreOrden(nodo->getIzquierda(), fn);
+    recorrerPreOrden(nodo->getDerecha(), fn);
 }
 
-void Nodo::recorrerPostOrden(Nodo* nodo) {
+void Nodo::recorrerPostOrden(Nodo* nodo, std::function<void(Nodo*)> fn) {
     if (nodo == nullptr) {
         return;
     }
 
-    recorrerPostOrden(nodo->getIzquierda());
-    recorrerPostOrden(nodo->getDerecha());
-    std::cout << nodo->getValor().toString() << " ";
+    recorrerPostOrden(nodo->getIzquierda(), fn);
+    recorrerPostOrden(nodo->getDerecha(), fn);
+    fn(nodo);
 }
 
-Nodo* Nodo::insertar(Nodo* nodo, Nodo* nodoInsertar, int criterio) {
-    Nodo* nodoInsertar;
-    if (nodo == nullptr)
-        return nodoInsertar;
-
-    if (nodoInsertar->getValor().compMenorQue(nodo->getValor(), criterio)) {
-        nodo->setIzquierda(Nodo::insertar(nodo->getIzquierda(), nodoInsertar, criterio));
-        nodo->getIzquierda()->setPadre(nodo);
-    } else {
-        nodo->setDerecha(Nodo::insertar(nodo->getDerecha(), nodoInsertar, criterio));
-        nodo->getDerecha()->setPadre(nodo);
+int Nodo::numeroAbuelos(Nodo *nodo) {
+    if (nodo == nullptr) {
+        return 0;
     }
-    return nodo;
+
+    int abuelos = 0;
+    bool abuelosDer = false;
+    bool abuelosIZq = false;
+    if (
+        nodo->getIzquierda() != nullptr &&
+        (nodo->getIzquierda()->getIzquierda() != nullptr || nodo->getIzquierda()->getDerecha() != nullptr)
+    ) {
+        abuelosDer = true;
+    }
+    if (
+        nodo->getDerecha() != nullptr &&
+        (nodo->getDerecha()->getIzquierda() != nullptr || nodo->getDerecha()->getDerecha() != nullptr)
+    ) {
+        abuelosIZq = true;
+    }
+
+    if (abuelosDer || abuelosIZq) {
+        Dato* dato = nodo->getValor();
+        Alumno al = dynamic_cast<Alumno&>(*dato);
+        std::wcout <<  L"- " << al.primerNombre.c_str() << L"\n";
+        abuelos++;
+    }
+
+    return abuelos + numeroAbuelos(nodo->getIzquierda()) + numeroAbuelos(nodo->getDerecha());
 }

@@ -13,6 +13,7 @@ public:
     static std::wstring MAGENTA;
     static std::wstring CYAN;
     static std::wstring WHITE;
+    static std::wstring GRAY;
 
     static std::wstring BG_BLACK;
     static std::wstring BG_RED;

@@ -84,6 +84,32 @@ std::string ingresarCadena(bool o) {
     return str;
 }
 
+std::string ingresarNumero() {
+    char ch = '\0';
+    std::string str = "";
+    do {
+        ch = getch();
+        // Borrar
+        if (ch == 127 || ch == 8) {
+            std::wcout << "\b \b";
+            if (str.length() > 0) {
+                str = str.substr(0, str.length() - 1);
+            }
+            continue;
+        }
+        if (ch == 10) {
+            break;
+        }
+        if (ch < 48 || ch > 57) {
+            continue;
+        };
+        std::wcout << ch;
+        str += ch;
+    } while (true);
+    std::wcout << std::endl;
+    return str;
+}
+
 std::string ingresarCedula() {
     char ch = '\0';
     std::string str = "";
@@ -132,7 +158,11 @@ int ingresarEntero() {
         str += ch;
     } while (true);
     std::wcout << std::endl;
-    return std::stoi(str);
+    try {
+        return std::stoi(str);
+    } catch (std::invalid_argument e) {
+        return 0;
+    }
 }
 
 float ingresarFlotante() {

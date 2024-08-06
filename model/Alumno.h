@@ -3,10 +3,11 @@
 
 #include <string>
 #include "Dato.h"
+#include "ArbolRB.h"
 
 enum CriterioOrdenacionAlumno { OrdenarCedula, OrdenarNombre, OrdenarNombre2, OrdenarApellido, OrdenarApellido2 };
 
-class Alumno: Dato {
+class Alumno: public Dato {
     private:
         float nota1;
         float nota2;
@@ -15,22 +16,31 @@ class Alumno: Dato {
         bool aprobado;
 
     public:
-        std::string nombre;
+        std::string primerNombre;
         std::string segundoNombre;
-        std::string apellido;
-        int numeroUnico;
+        std::string apellidoPaterno;
+        std::string apellidoMaterno;
+        std::string cedula;
 
         Alumno();
-        Alumno(int numeroUnico, std::string nombre, std::string segundoNombre, std::string apellido);
+        Alumno(
+            std::string cedula,
+            std::string primerNombre,
+            std::string segundoNombre,
+            std::string apellidoPaterno,
+            std::string apellidoMaterno
+        );
         void ingresarNotas(float nota1, float nota2, float nota3);
         void calcularPromedio();
         void verificarAprobacion();
         void guardarDatosEnArchivo(std::ofstream& archivo);
 
         std::string toString();
-        bool compMenorQue(Alumno other, int criterio);
-        bool compMayorQue(Alumno other, int criterio);
-        bool compIgualQue(Alumno other, int criterio);
+        bool compMenorQue(const Dato& other, int criterio) const;
+        bool compMayorQue(const Dato& other, int criterio) const;
+        bool compIgualQue(const Dato& other, int criterio) const;
+
+        static void visualizarArbol(ArbolRB& arbol);
 };
 
 std::wostream& operator << (std::wostream& outs, const Alumno& al);

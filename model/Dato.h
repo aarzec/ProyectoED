@@ -5,10 +5,10 @@
 
 class Dato {
     public:
-        virtual std::string toString();
-        virtual bool compMenorQue(Dato other, int criterio);
-        virtual bool compMayorQue(Dato other, int criterio);
-        virtual bool compIgualQue(Dato other, int criterio);
+        virtual std::string toString() = 0;
+        virtual bool compMenorQue(const Dato& other, int criterio) const = 0;
+        virtual bool compMayorQue(const Dato& other, int criterio) const = 0;
+        virtual bool compIgualQue(const Dato& other, int criterio) const = 0;
     private:
 };
 
