@@ -1,6 +1,7 @@
 #include <iostream>
 #include <functional>
 #include "Dato.h"
+#include "ListaSimple.h"
 #include "Nodo.h"
 #include "Alumno.h"
 #include "ArbolRB.h"
@@ -224,6 +225,10 @@ void ArbolRB::setCriterioOrdenacion(int criterio) {
     // Aquí deberíamos reordenar los elementos
 }
 
+int ArbolRB::getCriterioOrdenacion() {
+    return criterioOrdenacion;
+}
+
 void ArbolRB::insertar(Dato* k) {
     Nodo* newNode = new Nodo(k);
     Nodo* y = nullptr;
@@ -303,4 +308,12 @@ void ArbolRB::recorrer(std::function<void(Nodo*)> fn, TipoRecorrido rec) {
     default:
         break;
     }
+}
+
+Lista ArbolRB::transformarLista() {
+    Lista lista = Lista();
+    recorrer([&lista](Nodo* nodo){
+        lista.agregar(nodo->getValor());
+    }, TipoRecorrido::IN_ORDEN);
+    return lista;
 }

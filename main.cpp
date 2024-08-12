@@ -8,6 +8,8 @@
 #include "./model/Alumno.h"
 #include "./model/ArbolRB.h"
 #include "./model/Nodo.h"
+#include "./model/NodoLista.h"
+#include "./model/ListaSimple.h"
 #include "./utils/PrettyPrinter.h"
 #include "./utils/ConsoleColor.h"
 #include "./utils/MenuSelector.h"
@@ -56,18 +58,54 @@ int main() {
                 printer.print(L"Alumno registrado con éxito", PrettyPrinter::SUCCESS);
             } ; break;
             case 1: {
-                Utilidades::clearConsole();
-                std::wcout << L"Ingrese la cédula del estudiante a buscar: ";
-                std::string cedula = ingresarNumero();
-                Alumno alumnoBusqueda = Alumno();
-                alumnoBusqueda.cedula = cedula;
-                Nodo* alumno = arbolAlumnos.buscar(alumnoBusqueda);
-                if (alumno != nullptr) {
-                    std::string mensaje = "Estudiante encontrado: " + alumno->getValor()->toString();
-                    printer.print(Utilidades::toWString(mensaje), PrettyPrinter::SUCCESS);
-                } else {
-                    printer.print(L"Estudiante no encontrado", PrettyPrinter::PPERROR);
-                }
+                bool continuarMenuBusqueda = true;
+                do {
+                    Utilidades::clearConsole();
+                    std::vector<std::wstring> opcionesBusqueda({
+                        L"Búsqueda binaria",
+                        L"Búsqueda de Fibonacci",
+                        L"Volver"
+                    });
+                    MenuSelector menuBusqueda = MenuSelector(L"Buscar datos", opcionesBusqueda);
+                    unsigned long opcionBusqueda = menuBusqueda.showMenu();
+                    switch (opcionBusqueda) {
+                        case 0: {
+                            Utilidades::clearConsole();
+                            std::wcout << L"Ingrese la cédula del estudiante a buscar: ";
+                            std::string cedula = ingresarNumero();
+                            Alumno alumnoBusqueda = Alumno();
+                            alumnoBusqueda.cedula = cedula;
+                            Nodo* alumno = arbolAlumnos.buscar(alumnoBusqueda);
+                            if (alumno != nullptr) {
+                                std::string mensaje = "Estudiante encontrado: " + alumno->getValor()->toString();
+                                printer.print(Utilidades::toWString(mensaje), PrettyPrinter::SUCCESS);
+                            } else {
+                                printer.print(L"Estudiante no encontrado", PrettyPrinter::PPERROR);
+                            }
+                        } ; break;
+                        case 1: {
+                            Utilidades::clearConsole();
+                            std::wcout << L"Ingrese la cédula del estudiante a buscar: ";
+                            std::string cedula = ingresarNumero();
+                            Alumno alumnoBusqueda = Alumno();
+                            alumnoBusqueda.cedula = cedula;
+
+                            Lista listaAlumnos = arbolAlumnos.transformarLista();
+                            int alumnoIndice = listaAlumnos.busquedaFibonacci(&alumnoBusqueda, arbolAlumnos.getCriterioOrdenacion());
+                            if (alumnoIndice != -1) {
+                                Alumno* alumno = static_cast<Alumno*>(listaAlumnos.obtener(alumnoIndice));
+                                std::string mensaje = "Estudiante encontrado: " + alumno->toString();
+                                printer.print(Utilidades::toWString(mensaje), PrettyPrinter::SUCCESS);
+                            } else {
+                                printer.print(L"Estudiante no encontrado", PrettyPrinter::PPERROR);
+                            }
+                        } ; break;
+                        default: {
+                            Utilidades::clearConsole();
+                            continuarMenuBusqueda = false;
+                        } ; break;
+                    }
+                } while (continuarMenuBusqueda);
             } ; break;
             case 2: {
                 Utilidades::clearConsole();
