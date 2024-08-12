@@ -1,5 +1,7 @@
 #include <locale>
 #include <vector>
+#include <string.h>
+#include <dlfcn.h>
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -31,6 +33,11 @@ int main() {
         }
     #endif
 
+    // Cargar librerías
+    void* handleHashLib = dlopen("./lib/libsha1.so", RTLD_LAZY);
+    typedef void (*sha1_hash_t)(const char *input, char *output);
+    sha1_hash_t sha1_hash = (sha1_hash_t) dlsym(handleHashLib, "sha1_hash");
+
     PrettyPrinter printer;
     ArbolRB arbolAlumnos = leerArchivoAlumnos(); // Por simplicidad, el árbol por defecto estará ordenado por cédula
 
@@ -39,6 +46,7 @@ int main() {
         L"Buscar datos",
         L"Mostrar datos",
         L"Ver número de abuelos",
+        L"Hashing de datos usando SHA-1",
         L"Salir"
     });
 
@@ -172,6 +180,21 @@ int main() {
                 std::wcout << ConsoleColor::BG_BLUE << ConsoleColor::BLACK << L"  Abuelos del árbol  \n" << ConsoleColor::RESET << ConsoleColor::YELLOW << std::endl;
                 int nAbuelos = Nodo::numeroAbuelos(arbolAlumnos.root);
                 std::wcout << ConsoleColor::GREEN  << L"= " << nAbuelos << L" abuelos" << ConsoleColor::RESET << L"\n\n";
+                Utilidades::consolePause();
+            } ; break;
+            case 4: {
+                Utilidades::clearConsole();
+                std::wcout << ConsoleColor::BG_BLUE << ConsoleColor::BLACK << L"  Hashing usando SHA-1  \n" << ConsoleColor::RESET << ConsoleColor::YELLOW << std::endl;
+
+                std::string input = obtenerJsonAlumnos(arbolAlumnos);
+                char inputCStr[input.length() + 1];
+                char outputCStr[40 + 1];
+
+                strcpy(inputCStr, input.c_str());
+                sha1_hash(inputCStr, outputCStr);
+                std::string output = outputCStr;
+
+                std::wcout << ConsoleColor::GREEN << L"= " << Utilidades::toWString(output) << ConsoleColor::RESET << L"\n\n";
                 Utilidades::consolePause();
             } ; break;
             default: {

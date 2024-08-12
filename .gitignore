@@ -44,3 +44,6 @@
 # Built Visual Studio Code Extensions
 *.vsix
 data/*
+
+# Excepciones
+!lib/libsha1.so

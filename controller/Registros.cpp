@@ -57,11 +57,18 @@ ArbolRB leerArchivoAlumnos() {
 }
 
 void guardarArchivoAlumnos(ArbolRB& arbolAlumnos) {
+    std::ofstream file(archivoAlumnos);
+    std::string json = obtenerJsonAlumnos(arbolAlumnos);
+
+    file << json;
+    file.close();
+}
+
+std::string obtenerJsonAlumnos(ArbolRB& arbolAlumnos) {
     rapidjson::Document d;
     d.SetArray();
     rapidjson::Document::AllocatorType& allocator = d.GetAllocator();
 
-    try {
     arbolAlumnos.recorrer([&allocator, &d](Nodo* nodo) {
         Dato* dato = nodo->getValor();
         Alumno al = dynamic_cast<Alumno&>(*dato);
@@ -74,20 +81,14 @@ void guardarArchivoAlumnos(ArbolRB& arbolAlumnos) {
 
         d.PushBack(objAlumno, allocator);
     }, TipoRecorrido::IN_ORDEN);
-    } catch (std::exception& e) {
-        std::wcout << L"Error: " << e.what() << std::endl;
-    }
 
-    std::wcout << L"Guardando archivo de alumnos..." << std::endl;
-
-    std::ofstream file(archivoAlumnos);
     std::string json;
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     d.Accept(writer);
     json = buffer.GetString();
-    file << json;
-    file.close();
+
+    return json;
 }
 
 Alumno ingresarAlumno(ArbolRB& arbolAlumnos) {
