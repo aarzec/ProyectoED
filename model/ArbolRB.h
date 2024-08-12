@@ -3,6 +3,7 @@
 
 #include <string>
 #include <functional>
+#include "ListaSimple.h"
 #include "Nodo.h"
 #include "Dato.h"
 
@@ -27,7 +28,9 @@ public:
 
     void imprimir(TipoRecorrido rec);
     void recorrer(std::function<void(Nodo*)> fn, TipoRecorrido rec);
+    Lista transformarLista();
 
+    int getCriterioOrdenacion();
     void setCriterioOrdenacion(int criterio);
 private:
     int criterioOrdenacion;
